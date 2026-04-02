@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUNIA | Concept Store</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Space+Grotesk:wght@500&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            width: 100%;
+            min-height: 100%;
+            background-color: #ffffff;
+            color: #000000;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto !important;
+            cursor: auto;
+        }
+
+        header, nav, .newsletter-section, footer { border-bottom: 1px solid #000; background: white; }
+        header { padding: 30px 0; text-align: center; }
+        .header-title img { width: 400px; max-width: 85%; height: auto; display: block; margin: 0 auto; cursor: pointer; }
+
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 25px; 
+            text-transform: uppercase; 
+            font-size: 10px; 
+            letter-spacing: 2px; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-icons { display: flex; gap: 30px; }
+        nav a { text-decoration: none; color: #000; cursor: pointer; transition: opacity 0.2s; }
+        nav a:hover { opacity: 0.5; }
+
+        .main-grid { display: grid; grid-template-columns: repeat(3, 1fr); min-height: 80vh; }
+        .category-box { 
+            padding: 60px 40px; 
+            border-right: 1px solid #000; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+            cursor: pointer;
+        }
+        .category-box:last-child { border-right: none; }
+        .category-box:hover { background: #fafafa; }
+
+        .preview-image-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 60%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.1;
+            transition: all 0.6s ease;
+            filter: grayscale(100%);
+        }
+
+        .category-box:hover .preview-image-container {
+            opacity: 1;
+            transform: translate(-50%, -55%) scale(1.05);
+            filter: grayscale(0%);
+        }
+
+        .preview-image-container img { width: 100%; height: 100%; object-fit: contain; display: none; }
+        .preview-image-container img.active { display: block; }
+
+        .category-box h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; text-transform: uppercase; line-height: 1.1; position: relative; z-index: 2; }
+        .category-box p { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; position: relative; z-index: 2; }
+
+        .catalog-section { display: none; padding: 50px 5%; border-bottom: 1px solid #000; min-height: 100vh; }
+        .shopify-master-container { width: 100%; display: block; margin: 0 auto; padding: 20px 0; }
+        .catalog-header { margin-bottom: 40px; text-transform: uppercase; font-size: 11px; letter-spacing: 3px; font-weight: 600; border-left: 4px solid #000; padding-left: 15px; }
+
+        .newsletter-section { padding: 100px 20px; text-align: center; }
+        .newsletter-form input { border: none; border-bottom: 1px solid #000; padding: 10px; width: 350px; max-width: 80%; font-size: 12px; outline: none; text-align: center; }
+        .newsletter-form button { background: #000; color: #fff; border: none; padding: 12px 30px; text-transform: uppercase; font-size: 10px; letter-spacing: 2px; margin-left: 10px; cursor: pointer; }
+        
+        footer { 
+            padding: 40px 25px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-size: 9px; 
+            letter-spacing: 1.5px; 
+            text-transform: uppercase; 
+            color: #555; 
+        }
+        .footer-logo img { height: 100px; width: auto; filter: grayscale(100%); opacity: 0.8; }
+        .footer-info { display: flex; align-items: center; gap: 20px; text-align: right;}
+
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .category-box { border-right: none; border-bottom: 1px solid #000; min-height: 50vh; }
+            footer { flex-direction: column; gap: 20px; text-align: center;}
+            .footer-info { flex-direction: column; gap: 5px; text-align: center;}
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title" onclick="showHome()">
+            <img src="Imagenes/NUNIA.png" alt="NUNIA">
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-links">
+            <a onclick="showCatalog('originals')">Original</a>
+            <a onclick="showCatalog('secondhand')">Second Hand</a>
+            <a onclick="showCatalog('accessories')">Accessories</a>
+        </div>
+        <div class="nav-icons">
+            <a href="#">Wishlist (0)</a>
+        </div>
+    </nav>
+
+    <main id="home-grid" class="main-grid">
+        <div class="category-box" onclick="showCatalog('originals')">
+            <h2>Nunia<br>Original</h2>
+            <div class="preview-image-container" id="preview-originals">
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600" class="active">
+                <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600">
+            </div>
+            <p>Seasonal Drops</p>
+        </div>
+
+        <div class="category-box" onclick="showCatalog('secondhand')">
+            <h2>Second<br>Hand</h2>
+            <div class="preview-image-container" id="preview-secondhand">
+                <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?w=600" class="active">
+                <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600">
+            </div>
+            <p>Curated Archive</p>
+        </div>
+
+        <div class="category-box" onclick="showCatalog('accessories')">
+            <h2>Objects /<br>Accessories</h2>
+            <div class="preview-image-container" id="preview-accessories">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600" class="active">
+                <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600">
+            </div>
+            <p>Essentials</p>
+        </div>
+    </main>
+
+    <section id="originals-catalog" class="catalog-section">
+        <div class="catalog-header">Collection / Originals</div>
+        <div id='collection-component-1774919771697' class="shopify-master-container"></div>
+    </section>
+
+    <section id="secondhand-catalog" class="catalog-section">
+        <div class="catalog-header">Curated / Second Hand</div>
+        <div id='collection-component-1774919697545' class="shopify-master-container"></div>
+    </section>
+
+    <section id="accessories-catalog" class="catalog-section">
+        <div class="catalog-header">Archive / Accessories</div>
+        <div id='collection-component-1774919813302' class="shopify-master-container"></div>
+    </section>
+
+    <div class="newsletter-section">
+        <form class="newsletter-form">
+            <input type="email" placeholder="SUBSCRIBE TO OUR NEWSLETTER" required>
+            <button type="submit">Join</button>
+        </form>
+    </div>
+
+    <footer>
+        <div class="footer-logo">
+            <img src="Imagenes/NUNIACHICO.png" alt="Nunia Footer Logo">
+        </div>
+        <div class="footer-info">
+            <div>© 2026 NUNIA CONCEPT STORE™</div>
+            <div>Based in Querétaro, MX</div>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+    function rotateImages(containerId) {
+        const container = document.getElementById(containerId);
+        if(!container) return;
+        const images = container.querySelectorAll('img');
+        let currentIndex = 0;
+        setInterval(() => {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }, 4000);
+    }
+    rotateImages('preview-originals');
+    rotateImages('preview-secondhand');
+    rotateImages('preview-accessories');
+
+    (function () {
+      var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+      function loadScript() {
+        var script = document.createElement('script');
+        script.async = true; script.src = scriptURL;
+        document.body.appendChild(script);
+        script.onload = ShopifyBuyInit;
+      }
+      if (window.ShopifyBuy) { ShopifyBuyInit(); } else { loadScript(); }
+
+      function ShopifyBuyInit() {
+        var client = ShopifyBuy.buildClient({
+          domain: '0k60zh-nw.myshopify.com',
+          storefrontAccessToken: 'adbe4399283760add8fcb65d0b62ca79',
+        });
+        ShopifyBuy.UI.onReady(client).then(function (ui) {
+          var options = { product: { styles: { product: { "@media (min-width: 601px)": { "max-width": "300px" } }, button: { "background-color": "#000" } } } };
+          ui.createComponent('collection', { id: '315065073711', node: document.getElementById('collection-component-1774919771697'), options: options });
+          ui.createComponent('collection', { id: '315063730223', node: document.getElementById('collection-component-1774919697545'), options: options });
+          ui.createComponent('collection', { id: '315065401391', node: document.getElementById('collection-component-1774919813302'), options: options });
+        });
+      }
+    })();
+
+    function showCatalog(id) {
+        document.getElementById('home-grid').style.display = 'none';
+        document.querySelectorAll('.catalog-section').forEach(s => s.style.display = 'none');
+        document.getElementById(id + '-catalog').style.display = 'block';
+        window.scrollTo(0,0);
+        setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
+    }
+
+    function showHome() {
+        document.getElementById('home-grid').style.display = 'grid';
+        document.querySelectorAll('.catalog-section').forEach(s => s.style.display = 'none');
+        window.scrollTo(0,0);
+    }
+    </script>
+</body>
+</html>
